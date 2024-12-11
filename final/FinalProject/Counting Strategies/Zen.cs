@@ -1,6 +1,6 @@
 public class ZenCount : Strategy {
     public ZenCount(int deckCount) : base(deckCount) {
-        _name = "Knockout";
+        _name = "Zen Count";
         _runningCount = 0;
         _trueCount = 0;
         _cardCount = 0;
@@ -24,7 +24,7 @@ public class ZenCount : Strategy {
             _runningCount += 2;
         }
 
-        else if (card == "10" || card == "J" || card == "Q" || card == "K" || card == "A")
+        else if (card == "T" || card == "J" || card == "Q" || card == "K" || card == "A")
         {
             _runningCount -= 2;
         }

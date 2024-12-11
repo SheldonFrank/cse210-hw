@@ -18,7 +18,7 @@ public class WongHalves : Strategy {
         } else if (card == "9") {
             _runningCount -= 0.5;
 
-        } else if (card == "10" || card == "J" || card == "Q" || card == "K" || card == "A") {
+        } else if (card == "T" || card == "J" || card == "Q" || card == "K" || card == "A") {
             _runningCount--;
         }
 

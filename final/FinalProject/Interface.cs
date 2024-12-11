@@ -7,14 +7,10 @@ public class Interface {
     };
     static string[] option1Settings = { "1", "2", "3", "4", "5", "6", "7", "8" };
     static string[] option2Settings = {strategies[0].GetStrategyName(), strategies[1].GetStrategyName(), strategies[2].GetStrategyName(), strategies[3].GetStrategyName(), strategies[4].GetStrategyName(), strategies[5].GetStrategyName(), strategies[6].GetStrategyName(), strategies[7].GetStrategyName()};
-    static string[] option4Settings = { "Option4-Setting1", "Option4-Setting2", "Option4-Setting3" };
     static int option1Index = 0;
     static int option2Index = 0;
-    static int option4Index = 0;
-
     static int check1 = 0;
     static int check2 = 0;
-
     static BasicAction basicAction = new BasicAction();
     static Analyzer analyzer = new Analyzer(basicAction);
     public Strategy GetStrategy() {
@@ -99,12 +95,17 @@ public class Interface {
                         if (row == selectedRow && col == selectedCol && inSettingMode)
                         {
                             UserInput user = new UserInput(analyzer);
+                            analyzer.DisplayAnalyzer(Console.CursorLeft, Console.CursorTop);
+
                             user.Interact(strategies[option2Index]);
-                            inSettingMode = false;
-                            Console.CursorVisible = false;
+                            Console.Write(" - Hand Complete - Press Enter to continue to next hand.");
                             analyzer.SetPlayerHand("");
                             analyzer.SetPlayerTotal(0);
-                            analyzer.SetDealerUpcard("");
+                            analyzer.ResetAction();
+                            analyzer.SetDealerUpcard(" ");
+                            analyzer.DisplayAnalyzer(Console.CursorLeft, Console.CursorTop);
+                            inSettingMode = false;
+                            Console.CursorVisible = false;
                         }
                         else
                         {
@@ -142,15 +143,32 @@ public class Interface {
                             option2Index = (option2Index == option2Settings.Length - 1) ? 0 : option2Index + 1;
                         break;
                     case ConsoleKey.Enter:
-                        if (selectedRow == 0 && selectedCol == 0 && option1Index != check1 && option2Index != check2) {
-                            strategies[0] = new HiLo(option1Index + 1);
-                            strategies[1] = new Knockout(option1Index + 1);
-                            strategies[2] = new WongHalves(option1Index + 1);
-                            strategies[3] = new ZenCount(option1Index + 1);
-                            strategies[4] = new OmegaII(option1Index + 1);
-                            strategies[5] = new ReKo(option1Index + 1);
-                            strategies[6] = new RPAC(option1Index + 1);
-                            strategies[7] = new SilverFox(option1Index + 1);
+                        if (selectedRow == 0 && selectedCol == 0) {
+                            if (check1 != option1Index) {
+                                
+                                strategies[0] = new HiLo(option1Index + 1);
+                                strategies[1] = new Knockout(option1Index + 1);
+                                strategies[2] = new WongHalves(option1Index + 1);
+                                strategies[3] = new ZenCount(option1Index + 1);
+                                strategies[4] = new OmegaII(option1Index + 1);
+                                strategies[5] = new ReKo(option1Index + 1);
+                                strategies[6] = new RPAC(option1Index + 1);
+                                strategies[7] = new SilverFox(option1Index + 1);
+                                check1 = option1Index;
+                            }
+
+                            else if (check2 != option2Index) {
+                                strategies[0] = new HiLo(option1Index + 1);
+                                strategies[1] = new Knockout(option1Index + 1);
+                                strategies[2] = new WongHalves(option1Index + 1);
+                                strategies[3] = new ZenCount(option1Index + 1);
+                                strategies[4] = new OmegaII(option1Index + 1);
+                                strategies[5] = new ReKo(option1Index + 1);
+                                strategies[6] = new RPAC(option1Index + 1);
+                                strategies[7] = new SilverFox(option1Index + 1);
+                                check2 = option2Index;
+                            }
+                            
                         }
                         inSettingMode = false;
                         break;
@@ -194,7 +212,6 @@ public class Interface {
 
         }
 
-            analyzer.DisplayAnalyzer(Console.CursorLeft, Console.CursorTop);
         }
 
 

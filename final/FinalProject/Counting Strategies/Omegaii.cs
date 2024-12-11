@@ -24,7 +24,7 @@ public class OmegaII : Strategy {
             _runningCount += 2;
         }
 
-        else if (card == "10" || card == "J" || card == "Q" || card == "K" || card == "A")
+        else if (card == "T" || card == "J" || card == "Q" || card == "K" || card == "A")
         {
             _runningCount -= 2;
         }

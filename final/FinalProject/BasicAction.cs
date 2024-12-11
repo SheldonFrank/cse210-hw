@@ -27,10 +27,13 @@ public class BasicAction
 
     private int GetRow(string playerHand, int playerTotal)
     {   
+        
         playerHand = playerHand.Replace("J", "T");
         playerHand = playerHand.Replace("Q", "T");
         playerHand = playerHand.Replace("K", "T");
-        if (playerHand == "A2" || playerHand == "A3" || playerHand == "2A" || playerHand == "3A") return 7;
+        playerHand = playerHand.ToUpper();
+        if (playerHand == "AT" || playerHand == "TA") return 999;
+        else if (playerHand == "A2" || playerHand == "A3" || playerHand == "2A" || playerHand == "3A") return 7;
         else if (playerHand == "A4" || playerHand == "A5" || playerHand == "4A" || playerHand == "5A") return 8;
         else if (playerHand == "A6" || playerHand == "6A") return 9;
         else if (playerHand == "A7" || playerHand == "7A") return 10;
@@ -40,6 +43,7 @@ public class BasicAction
         else if (playerHand == "88") return 14;
         else if (playerHand == "99") return 15;
         else if (playerHand == "TT") return 16;
+        else if (playerTotal < 5) return 0;
         else if (playerTotal >= 5 && playerTotal <= 8) return 0;
         else if (playerTotal == 9) return 1;
         else if (playerTotal == 10) return 2;
@@ -57,25 +61,26 @@ public class BasicAction
         else throw new ArgumentException("Invalid dealer upcard");
     }
 
-    private string GetDeviation(int dealerUpcard, int playerTotal, double trueCount) {
+    private string GetDeviation(int dealerUpcard, int playerTotal, double trueCount, string playerHand) {
 
         int intTrueCount = Convert.ToInt32(trueCount);
+        playerHand = playerHand.ToUpper();
 
         if (dealerUpcard == 1 && intTrueCount >= 3) {return "Take Insurance";}
         else if (playerTotal == 9 && dealerUpcard == 2 && intTrueCount >= 1) {return "Double Down";}
         else if (playerTotal == 9 && dealerUpcard == 7 && intTrueCount >= 3) {return "Double Down";}
         else if (playerTotal == 10 && dealerUpcard == 10 && intTrueCount >= 4) {return "Double Down";}
         else if (playerTotal == 11 && dealerUpcard == 1 && intTrueCount >= 1) {return "Double Down";}
-        else if (playerTotal == 12 && dealerUpcard == 2 && intTrueCount >= 3) {return "Stand";}
-        else if (playerTotal == 12 && dealerUpcard == 3 && intTrueCount >= 2) {return "Stand";}
-        else if (playerTotal == 12 && dealerUpcard == 4 && intTrueCount <= 0) {return "Hit";}
-        else if (playerTotal == 12 && dealerUpcard == 5 && intTrueCount <= -2) {return "Hit";}
-        else if (playerTotal == 12 && dealerUpcard == 6 && intTrueCount <= -1) {return "Hit";}
+        else if (playerTotal == 12 && dealerUpcard == 2 && intTrueCount >= 3 && playerHand != "AA") {return "Stand";}
+        else if (playerTotal == 12 && dealerUpcard == 3 && intTrueCount >= 2 && playerHand != "AA") {return "Stand";}
+        else if (playerTotal == 12 && dealerUpcard == 4 && intTrueCount <= 0 && playerHand != "AA") {return "Hit";}
+        else if (playerTotal == 12 && dealerUpcard == 5 && intTrueCount <= -2 && playerHand != "AA") {return "Hit";}
+        else if (playerTotal == 12 && dealerUpcard == 6 && intTrueCount <= -1 && playerHand != "AA") {return "Hit";}
         else if (playerTotal == 13 && dealerUpcard == 2 && intTrueCount <= -1) {return "Hit";}
         else if (playerTotal == 13 && dealerUpcard == 3 && intTrueCount <= -2) {return "Hit";}
-        else if (playerTotal == 15 && dealerUpcard == 10 || dealerUpcard == 1 && intTrueCount >= 4) {return "Stand";}
+        else if (playerTotal == 15 && (dealerUpcard == 10 || dealerUpcard == 1) && intTrueCount >= 4) {return "Stand";}
         else if (playerTotal == 16 && dealerUpcard == 9 && intTrueCount >= 5) {return "Stand";}
-        else if (playerTotal == 16 && dealerUpcard == 10 || dealerUpcard == 1 && intTrueCount >= 0) {return "Stand";}
+        else if (playerTotal == 16 && (dealerUpcard == 10 || dealerUpcard == 1) && intTrueCount >= 0) {return "Stand";}
         else if (playerTotal == 16 && dealerUpcard == 1 && intTrueCount < 3) {return "Surrender";}
         else if (playerTotal == 17 && dealerUpcard == 1 && intTrueCount < 3) {return "Surrender";}
         else return "No Deviation";
@@ -91,7 +96,7 @@ public class BasicAction
 
         if (playerTotal > 21) {return "Bust";}
 
-        if (playerHand.Length == 2 && playerHand.Contains("A") && playerHand.Contains("T")) {
+        if (GetRow(playerHand, playerTotal) == 999) {
             return "Blackjack!";
         }
 
@@ -103,8 +108,8 @@ public class BasicAction
             }
         }
 
-        string deviation = GetDeviation(intDealerUpcard, playerTotal, trueCount);
-
+        string deviation = GetDeviation(intDealerUpcard, playerTotal, trueCount, playerHand);
+        
         if (deviation != "No Deviation") {
             return deviation;
         }

@@ -29,7 +29,7 @@ public class RPAC : Strategy {
             _runningCount--;
         }
 
-        else if (card == "10" || card == "J" || card == "Q" || card == "K")
+        else if (card == "T" || card == "J" || card == "Q" || card == "K")
         {
             _runningCount -= 3;
         }

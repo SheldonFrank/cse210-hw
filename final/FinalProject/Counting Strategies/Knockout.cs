@@ -11,7 +11,7 @@ public class Knockout : Strategy {
         if (card == "2" || card == "3" || card == "4" || card == "5" || card == "6" || card == "7") {
             _runningCount++;
             
-        } else if (card == "10" || card == "J" || card == "Q" || card == "K" || card == "A") {
+        } else if (card == "T" || card == "J" || card == "Q" || card == "K" || card == "A") {
             _runningCount--;
         }
 

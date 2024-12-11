@@ -14,7 +14,7 @@ public class ReKo : Strategy {
             
         }
         
-        else if (card == "10" || card == "J" || card == "Q" || card == "K" || card == "A")
+        else if (card == "T" || card == "J" || card == "Q" || card == "K" || card == "A")
         {
             _runningCount--;
         }

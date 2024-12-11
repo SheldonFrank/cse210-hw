@@ -14,7 +14,7 @@ public class SilverFox : Strategy {
             
         }
         
-        else if (card == "10" || card == "J" || card == "Q" || card == "K" || card == "A" || card == "9")
+        else if (card == "T" || card == "J" || card == "Q" || card == "K" || card == "A" || card == "9")
         {
             _runningCount--;
         }
